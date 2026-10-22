@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer with Arjun - Premium Quiz Portal</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --accent: #06b6d4;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            color: var(--text-main);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
+        }
+
+        .logo-area {
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            margin-bottom: 25px;
+        }
+
+        .logo-area h2 {
+            display: inline-block;
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 22px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+            margin: 0;
+        }
+
+        h3 {
+            color: var(--text-main);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        p {
+            color: var(--text-muted);
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+        }
+
+        button:hover {
+            background: var(--primary-hover);
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .screen { display: none; }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            margin: 10px 0;
+            background: #f8fafc;
+            color: var(--text-main);
+            border: 2px solid #e2e8f0;
+            font-weight: 500;
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: none;
+        }
+
+        .option-btn:hover {
+            background: #f1f5f9;
+            border-color: var(--primary);
+        }
+
+        .correct {
+            background: #dcfce7 !important;
+            color: #166534 !important;
+            border-color: #22c55e !important;
+        }
+
+        .wrong {
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+            border-color: #ef4444 !important;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            background: #f8fafc;
+            padding: 12px 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .scroll-box {
+            max-height: 180px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 13px;
+            background: #f8fafc;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Hidden Admin Trigger Logo (5 clicks) -->
+    <div class="logo-area" onclick="triggerAdmin()">
+        <h2>💻 Computer with Arjun</h2>
+    </div>
+
+    <!-- Screen 1: Course Selection -->
+    <div id="screen-course" class="screen" style="display: block;">
+        <h3>Apna Computer Course Chunein</h3>
+        <p>Aage badhne ke liye apna manpasand course select karein</p>
+        <div class="btn-grid">
+            <button onclick="selectCourse('CCC')">CCC</button>
+            <button onclick="selectCourse('O Level')">O'Level</button>
+            <button onclick="selectCourse('Tally/GST')">Tally/GST</button>
+            <button onclick="selectCourse('DCA')">DCA</button>
+            <button onclick="selectCourse('ADCA')">ADCA</button>
+            <button onclick="selectCourse('DTP')">DTP</button>
+            <button onclick="selectCourse('DOAP')">DOAP</button>
+            <button onclick="selectCourse('BCC')">BCC</button>
+            <button onclick="selectCourse('DCAA')">DCAA</button>
+        </div>
+    </div>
+
+    <!-- Screen 2: User Details -->
+    <div id="screen-user" class="screen">
+        <h3>Selected Course: <span id="display-course" style="color: var(--primary);"></span></h3>
+        <p>Apni Details Darj Karein</p>
+        <input type="text" id="username" placeholder="Apna Poora Naam Likhein">
+        <input type="email" id="useremail" placeholder="Apni Gmail ID Likhein">
+        <button onclick="startQuiz()" style="width: 100%; margin-top: 10px;">Quiz Shuru Karein</button>
+    </div>
+
+    <!-- Screen 3: Quiz Screen -->
+    <div id="screen-quiz" class="screen">
+        <div class="quiz-header">
+            <span id="q-progress">Question: 1/25</span>
+            <span id="q-score">Score: 0</span>
+        </div>
+        <p id="question-text" style="font-size: 17px; font-weight: 600; text-align: left; margin: 15px 0; color: var(--text-main);"></p>
+        <div id="options-container">
+            <button class="option-btn" onclick="checkAnswer(0)" id="opt0"></button>
+            <button class="option-btn" onclick="checkAnswer(1)" id="opt1"></button>
+            <button class="option-btn" onclick="checkAnswer(2)" id="opt2"></button>
+            <button class="option-btn" onclick="checkAnswer(3)" id="opt3"></button>
+        </div>
+        <button id="next-btn" onclick="nextQuestion()" style="margin-top: 20px; display: none; width: 100%;">Agla Question</button>
+    </div>
+
+    <!-- Screen 4: Result & Leaderboard -->
+    <div id="screen-result" class="screen">
+        <h3>Quiz Samapt! Aapka Result</h3>
+        <p id="final-score-text" style="font-size: 17px; font-weight: bold; color: var(--primary);"></p>
+        
+        <h4 style="margin: 15px 0 5px 0; color: var(--text-main);">Top 10 Leaderboard</h4>
+        <table>
+            <thead>
+                <tr><th>Rank</th><th>Naam</th><th>Course</th><th>Score</th></tr>
+            </thead>
+            <tbody id="leaderboard-body"></tbody>
+        </table>
+        
+        <h4 style="margin: 20px 0 5px 0; color: var(--text-main);">Answer Sheet (Review)</h4>
+        <div id="answer-sheet-box" class="scroll-box"></div>
+        
+        <button onclick="location.reload()" style="margin-top: 20px; width: 100%;">Dobara Khelein</button>
+    </div>
+
+    <!-- Screen 5: Hidden Admin Panel -->
+    <div id="screen-admin" class="screen">
+        <h3>🔒 Admin Panel (Visitor History)</h3>
+        <p>Jin logo ne quiz kheli hai unki puri list:</p>
+        <div class="scroll-box" style="max-height: 250px;">
+            <table>
+                <thead>
+                    <tr><th>Naam</th><th>Gmail</th><th>Course</th><th>Score</th></tr>
+                </thead>
+                <tbody id="admin-tbody"></tbody>
+            </table>
+        </div>
+        <button onclick="closeAdmin()" style="margin-top: 20px; width: 100%; background: #ef4444;">Wapas Jayein</button>
+    </div>
+</div>
+
+<script>
+    const questionDatabase = {
+        "CCC": [
+            { q: "Computer ka brain kise kaha jata hai?", options: ["CPU", "Monitor", "Mouse", "Keyboard"], a: "CPU" },
+            { q: "WWW ka full form kya hai?", options: ["World Wide Web", "World Web Web", "Wide World Web", "None"], a: "World Wide Web" },
+            { q: "Email ke janak kaun hain?", options: ["Ray Tomlinson", "Bill Gates", "Steve Jobs", "None"], a: "Ray Tomlinson" },
+            { q: "Sabse fast memory kaunsi hai?", options: ["Cache", "RAM", "ROM", "Hard Disk"], a: "Cache" },
+            { q: "IP address (IPv4) kitne bit ka hota hai?", options: ["32 bit", "64 bit", "128 bit", "16 bit"], a: "32 bit" }
+        ],
+        "O Level": [
+            { q: "Python kis prakar ki language hai?", options: ["High-level language", "Machine language", "Low-level", "Assembly"], a: "High-level language" },
+            { q: "IoT ka full form kya hai?", options: ["Internet of Things", "Input of Technology", "Internet of Tech", "None"], a: "Internet of Things" },
+            { q: "Linux kya hai?", options: ["Operating System", "Browser", "Compiler", "Hardware"], a: "Operating System" }
+        ],
+        "Tally/GST": [
+            { q: "Bharat me GST kab lagu kiya gaya tha?", options: ["1 July 2017", "1 April 2018", "1 Jan 2016", "15 Aug 2017"], a: "1 July 2017" },
+            { q: "Tally me ledger banane ki shortcut key kya hai?", options: ["Alt + C", "Ctrl + C", "F11", "F12"], a: "Alt + C" },
+            { q: "GST kitne prakar ke hote hain?", options: ["3", "2", "4", "5"], a: "3" }
+        ],
+        "DCA": [
+            { q: "MS Word kiska part hai?", options: ["MS Office", "Windows", "Adobe", "Google"], a: "MS Office" },
+            { q: "Shortcut key for Copy is?", options: ["Ctrl + C", "Ctrl + V", "Ctrl + X", "Ctrl + P"], a: "Ctrl + C" }
+        ],
+        "ADCA": [
+            { q: "Photoshop me file ka extension kya hota hai?", options: [".psd", ".doc", ".xls", ".html"], a: ".psd" },
+            { q: "HTML me web page banane ke liye kya use hota hai?", options: ["Tags", "Formula", "Macros", "Queries"], a: "Tags" }
+        ],
+        "DTP": [
+            { q: "CorelDraw kis tarah ka software hai?", options: ["Vector Graphics", "Raster", "Database", "Audio Editor"], a: "Vector Graphics" },
+            { q: "PageMaker kis company ka product hai?", options: ["Adobe", "Microsoft", "Corel", "Apple"], a: "Adobe" }
+        ],
+        "DOAP": [
+            { q: "Office Automation me mukhya roop se kya shamil hai?", options: ["Word, Excel, PPT", "Photoshop", "C++ Coding", "Hardware Repair"], a: "Word, Excel, PPT" }
+        ],
+        "BCC": [
+            { q: "BCC ka full form email me kya hota hai?", options: ["Blind Carbon Copy", "Basic Computer Course", "Backup Computer Code", "None"], a: "Blind Carbon Copy" }
+        ],
+        "DCAA": [
+            { q: "Advanced Accounting me financial statements me kya aata hai?", options: ["Balance Sheet & P&L", "Sirf Cash", "Sirf Bill", "None"], a: "Balance Sheet & P&L" }
+        ]
+    };
+
+    let selectedCourse = "";
+    let userName = "";
+    let userEmail = "";
+    let activeQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let userLog = [];
+
+    function selectCourse(course) {
+        selectedCourse = course;
+        document.getElementById("display-course").innerText = course;
+        switchScreen("screen-user");
+    }
+
+    function startQuiz() {
+        userName = document.getElementById("username").value.trim();
+        userEmail = document.getElementById("useremail").value.trim();
+
+        if(!userName || !userEmail) {
+            alert("Kripya apna Naam aur Gmail ID dono bharein!");
+            return;
+        }
+
+        let pool = questionDatabase[selectedCourse] || questionDatabase["CCC"];
+        let shuffled = [...pool].sort(() => 0.5 - Math.random());
+        activeQuestions = shuffled.slice(0, 25); 
+
+        currentIndex = 0;
+        score = 0;
+        userLog = [];
+
+        switchScreen("screen-quiz");
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        if(currentIndex >= activeQuestions.length) {
+            finishQuiz();
+            return;
+        }
+
+        let qData = activeQuestions[currentIndex];
+        document.getElementById("q-progress").innerText = `Question: ${currentIndex + 1}/${activeQuestions.length}`;
+        document.getElementById("q-score").innerText = `Score: ${score}`;
+        document.getElementById("question-text").innerText = qData.q;
+
+        let btns = [document.getElementById("opt0"), document.getElementById("opt1"), document.getElementById("opt2"), document.getElementById("opt3")];
+        
+        btns.forEach((btn, idx) => {
+            if(qData.options && qData.options[idx]) {
+                btn.innerText = qData.options[idx];
+                btn.style.display = "block";
+                btn.className = "option-btn";
+                btn.disabled = false;
+            } else {
+                btn.style.display = "none";
+            }
+        });
+
+        document.getElementById("next-btn").style.display = "none";
+    }
+
+    function checkAnswer(selectedIdx) {
+        let qData = activeQuestions[currentIndex];
+        let btns = [document.getElementById("opt0"), document.getElementById("opt1"), document.getElementById("opt2"), document.getElementById("opt3")];
+        let selectedText = qData.options[selectedIdx];
+
+        btns.forEach(b => b.disabled = true);
+
+        let isCorrect = (selectedText === qData.a);
+        if(isCorrect) {
+            score++;
+            btns[selectedIdx].classList.add("correct");
+        } else {
+            btns[selectedIdx].classList.add("wrong");
+            btns.forEach(b => {
+                if(b.innerText === qData.a) b.classList.add("correct");
+            });
+        }
+
+        userLog.push({
+            q: qData.q,
+            selected: selectedText,
+            correct: qData.a,
+            status: isCorrect ? "Sahi" : "Galat"
+        });
+
+        document.getElementById("next-btn").style.display = "block";
+    }
+
+    function nextQuestion() {
+        currentIndex++;
+        loadQuestion();
+    }
+
+    function finishQuiz() {
+        switchScreen("screen-result");
+        document.getElementById("final-score-text").innerText = `${userName}, Aapka Score: ${score} / ${activeQuestions.length}`;
+
+        let visitors = JSON.parse(localStorage.getItem("arjun_visitors") || "[]");
+        visitors.push({ name: userName, email: userEmail, course: selectedCourse, score: score });
+        localStorage.setItem("arjun_visitors", JSON.stringify(visitors));
+
+        visitors.sort((a, b) => b.score - a.score);
+        let top10 = visitors.slice(0, 10);
+        let lbBody = document.getElementById("leaderboard-body");
+        lbBody.innerHTML = "";
+        top10.forEach((v, idx) => {
+            lbBody.innerHTML += `<tr><td>${idx+1}</td><td>${v.name}</td><td>${v.course}</td><td>${v.score}</td></tr>`;
+        });
+
+        let sheetBox = document.getElementById("answer-sheet-box");
+        sheetBox.innerHTML = "";
+        userLog.forEach((item, idx) => {
+            sheetBox.innerHTML += `<p><b>Q${idx+1}:</b> ${item.q}<br>Aapka Jawab: <span style="color:${item.status==='Sahi'?'#166534':'#991b1b'}">${item.selected}</span> | Sahi Jawab: <b>${item.correct}</b></p><hr style="border:0; border-top:1px solid #e2e8f0; margin:8px 0;">`;
+        });
+    }
+
+    let clickCounter = 0;
+    function triggerAdmin() {
+        clickCounter++;
+        setTimeout(() => { clickCounter = 0; }, 3000);
+
+        if(clickCounter >= 5) {
+            let pwd = prompt("Admin Password Darj Karein:");
+            if(pwd === "arjun123") {
+                loadAdminData();
+                switchScreen("screen-admin");
+            } else if(pwd !== null) {
+                alert("Galat Password!");
+            }
+            clickCounter = 0;
+        }
+    }
+
+    function loadAdminData() {
+        let visitors = JSON.parse(localStorage.getItem("arjun_visitors") || "[]");
+        let tbody = document.getElementById("admin-tbody");
+        tbody.innerHTML = "";
+        if(visitors.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4">Abhi tak koi record nahi hai.</td></tr>`;
+            return;
+        }
+        visitors.reverse().forEach(v => {
+            tbody.innerHTML += `<tr><td>${v.name}</td><td>${v.email}</td><td>${v.course}</td><td>${v.score}</td></tr>`;
+        });
+    }
+
+    function closeAdmin() {
+        switchScreen("screen-course");
+    }
+
+    function switchScreen(screenId) {
+        // Saari screens ko ek sath hide kar do
+        document.getElementById("screen-course").style.display = "none";
+        document.getElementById("screen-user").style.display = "none";
+        document.getElementById("screen-quiz").style.display = "none";
+        document.getElementById("screen-result").style.display = "none";
+        document.getElementById("screen-admin").style.display = "none";
+
+        // Sirf wahi screen dikhao jo chahiye
+        document.getElementById(screenId).style.display = "block";
+    }
+</script>
+
+</body>
+</html>
